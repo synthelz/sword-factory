@@ -37,4 +37,7 @@ document.getElementById('upgrade-rarity').addEventListener('click', () => {
     console.log("Rarity upgraded");
 });
 
+document.getElementById('toggle-dark-mode').addEventListener('click', toggleDarkMode);
+
 updateStats(money, swordsMade);
+
