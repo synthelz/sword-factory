@@ -4,54 +4,68 @@ let moldLevel = 1;
 let qualityLevel = 1;
 let rarityLevel = 1;
 
+const molds = ['Basic', 'Bronze', 'Gold'];
+const qualities = ['Normal', 'Awesome', 'Perfect'];
+const rarities = ['Common', 'Legendary', 'Omnificent'];
+
 const moldMultipliers = [1, 2, 4];
 const qualityMultipliers = [1, 2, 4];
 const rarityMultipliers = [1.1, 2, 5];
 
-const moldCost = document.getElementById('mold-cost');
-const qualityCost = document.getElementById('quality-cost');
-const rarityCost = document.getElementById('rarity-cost');
-
 function updateStats() {
     document.getElementById('money').innerText = money;
     document.getElementById('swords-made').innerText = swordsMade;
-    moldCost.innerText = moldLevel * 100;
-    qualityCost.innerText = qualityLevel * 100;
-    rarityCost.innerText = rarityLevel * 100;
+    console.log("Stats updated");
+}
+
+function generateSword() {
+    const mold = molds[Math.floor(Math.random() * moldLevel)];
+    const quality = qualities[Math.floor(Math.random() * qualityLevel)];
+    const rarity = rarities[Math.floor(Math.random() * rarityLevel)];
+
+    const value = moldMultipliers[molds.indexOf(mold)] *
+                  qualityMultipliers[qualities.indexOf(quality)] *
+                  rarityMultipliers[rarities.indexOf(rarity)];
+
+    return { mold, quality, rarity, value };
 }
 
 document.getElementById('make-sword').addEventListener('click', () => {
+    const sword = generateSword();
     swordsMade += 1;
+    document.getElementById('last-sword').innerText = `${sword.mold}, ${sword.quality}, ${sword.rarity}`;
+    console.log(`Sword made: ${sword.mold}, ${sword.quality}, ${sword.rarity}`);
     updateStats();
 });
 
 document.getElementById('sell-swords').addEventListener('click', () => {
-    const swordValue = moldMultipliers[moldLevel - 1] * qualityMultipliers[qualityLevel - 1] * rarityMultipliers[rarityLevel - 1];
-    money += swordsMade * swordValue;
+    const sword = generateSword();
+    money += swordsMade * sword.value;
     swordsMade = 0;
+    console.log(`Swords sold: ${sword.value}`);
     updateStats();
 });
 
 document.getElementById('upgrade-mold').addEventListener('click', () => {
-    if (money >= moldLevel * 100) {
-        money -= moldLevel * 100;
+    if (moldLevel < molds.length) {
         moldLevel += 1;
+        console.log("Mold upgraded");
         updateStats();
     }
 });
 
 document.getElementById('upgrade-quality').addEventListener('click', () => {
-    if (money >= qualityLevel * 100) {
-        money -= qualityLevel * 100;
+    if (qualityLevel < qualities.length) {
         qualityLevel += 1;
+        console.log("Quality upgraded");
         updateStats();
     }
 });
 
 document.getElementById('upgrade-rarity').addEventListener('click', () => {
-    if (money >= rarityLevel * 100) {
-        money -= rarityLevel * 100;
+    if (rarityLevel < rarities.length) {
         rarityLevel += 1;
+        console.log("Rarity upgraded");
         updateStats();
     }
 });
