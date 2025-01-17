@@ -1,34 +1,59 @@
-body {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
+let money = 0;
+let swordsMade = 0;
+let moldLevel = 1;
+let qualityLevel = 1;
+let rarityLevel = 1;
+
+const moldMultipliers = [1, 2, 4];
+const qualityMultipliers = [1, 2, 4];
+const rarityMultipliers = [1.1, 2, 5];
+
+const moldCost = document.getElementById('mold-cost');
+const qualityCost = document.getElementById('quality-cost');
+const rarityCost = document.getElementById('rarity-cost');
+
+function updateStats() {
+    document.getElementById('money').innerText = money;
+    document.getElementById('swords-made').innerText = swordsMade;
+    moldCost.innerText = moldLevel * 100;
+    qualityCost.innerText = qualityLevel * 100;
+    rarityCost.innerText = rarityLevel * 100;
 }
 
-#game-container {
-    position: relative;
-    width: 800px;
-    height: 600px;
-    background-color: #ffffff;
-    border: 1px solid #000;
-}
+document.getElementById('make-sword').addEventListener('click', () => {
+    swordsMade += 1;
+    updateStats();
+});
 
-#sword {
-    position: absolute;
-    width: 100px;
-    height: 20px;
-    background-color: #ff0000;
-    transform-origin: top left;
-}
+document.getElementById('sell-swords').addEventListener('click', () => {
+    const swordValue = moldMultipliers[moldLevel - 1] * qualityMultipliers[qualityLevel - 1] * rarityMultipliers[rarityLevel - 1];
+    money += swordsMade * swordValue;
+    swordsMade = 0;
+    updateStats();
+});
 
-#target {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: #00ff00;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+document.getElementById('upgrade-mold').addEventListener('click', () => {
+    if (money >= moldLevel * 100) {
+        money -= moldLevel * 100;
+        moldLevel += 1;
+        updateStats();
+    }
+});
+
+document.getElementById('upgrade-quality').addEventListener('click', () => {
+    if (money >= qualityLevel * 100) {
+        money -= qualityLevel * 100;
+        qualityLevel += 1;
+        updateStats();
+    }
+});
+
+document.getElementById('upgrade-rarity').addEventListener('click', () => {
+    if (money >= rarityLevel * 100) {
+        money -= rarityLevel * 100;
+        rarityLevel += 1;
+        updateStats();
+    }
+});
+
+updateStats();
