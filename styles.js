@@ -13,10 +13,29 @@ body {
     background-color: #ffffff;
     padding: 20px;
     border: 1px solid #000;
+    width: 80%;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 button {
     margin: 10px;
     padding: 10px 20px;
     cursor: pointer;
+}
+
+.dark-mode {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+.dark-mode #game-container {
+    background-color: #444;
+    border-color: #555;
+}
+
+.dark-mode button {
+    background-color: #555;
+    color: #f0f0f0;
+    border: none;
 }
