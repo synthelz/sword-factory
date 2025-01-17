@@ -6,3 +6,7 @@ function updateStats(money, swordsMade, lastSword) {
     }
     console.log("Stats updated");
 }
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+}
